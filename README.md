@@ -16,6 +16,7 @@ sudo usermod -aG docker $USER
 wp_data est partagé : nginx / wordpress
 
 4. Déploiement
+
 docker-compose up -d
 
 
