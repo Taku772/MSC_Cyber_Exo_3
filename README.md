@@ -2,6 +2,7 @@ Mon process
 
 1. VM Ubuntu Server + Docker  
 sudo apt install docker.io docker-compose -y
+
 sudo usermod -aG docker $USER
 
 2. Création du docker-compose.yaml + création du nginx.conf
