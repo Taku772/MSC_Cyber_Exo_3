@@ -6,7 +6,8 @@ sudo apt install docker.io docker-compose -y
 sudo usermod -aG docker $USER
 
 2. Création du docker-compose.yaml + création du nginx.conf
-    3 Conteneurs :
+
+   3 Conteneurs :
 - MariaDB  
 - WordPress 
 - Nginx
