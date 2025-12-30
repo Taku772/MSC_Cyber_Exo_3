@@ -1,0 +1,42 @@
+version: '3.8'                                        # Version Docker 
+
+services:                                             # Liste des conteneurs
+
+  db:                                                 # Nom du service : MariaDB
+    image: mariadb:latest                             # Image MariaDB
+    restart: always                                   # Redémarre auto
+    environment:                                      # Variables
+      MYSQL_ROOT_PASSWORD: Azerty_2025!               # Mot de passe Root
+      MYSQL_DATABASE: wordpress                       # Nom de la base
+      MYSQL_USER: wordpress                           # Utilisateur
+      MYSQL_PASSWORD: Azerty_2025!                    # Mot de passe utilisateur
+    volumes:                                          # Volume persistant
+      - db_data:/var/lib/mysql                        # db_data - dossier MySQL
+
+  wordpress:                                          # Nom du service : WordPress
+    image: wordpress:php8.3-fpm
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress                    #Utilisateur MariaDB
+      WORDPRESS_DB_PASSWORD: Azerty_2025!
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:                                       # Conditions de démarrage
+      - db                                            # Démarre aprés MariaDB
+
+  nginx:                                              # Nom du service : serveur web
+    image: nginx:alpine                               # Image de nginx
+    restart: always
+    ports:                                            # Choix du port
+      - "80:80"                                       # Port hôte 80 et port du conteneur 80
+    volumes:
+      - wp_data:/var/www/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - wordpress                                     # Démarre aprés wordpress
+
+volumes:                                              # Volumes persistants
+  db_data:                                            # db_data : MariaDB
+  wp_data:                                            # wp_data : fichiers wordpress et nginx
